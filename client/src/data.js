@@ -27,12 +27,12 @@ export const sliderItems = [
  export const categories = [
    {
      id: 1,
-     img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+     img: "https://images.pexels.com/photos/10909254/pexels-photo-10909254.jpeg?auto=compress&cs=tinysrgb&w=600",
      title: "SHIRT STYLE!",
    },
    {
      id: 2,
-     img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+     img: "https://images.pexels.com/photos/5588528/pexels-photo-5588528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
      title: "LOUNGEWEAR LOVE",
    },
    {
