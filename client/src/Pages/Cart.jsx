@@ -1,10 +1,14 @@
 import { Add, Remove } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styledComponents from 'styled-components';
 import Annoucement from '../components/Annoucement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { mobile } from '../responsive';
+import StripeCheckout from 'react-stripe-checkout';
+
+const KEY = process.env.REACT_APP_STRIPE
 
 
 const Container = styledComponents.div``;
@@ -69,6 +73,7 @@ const ProductDetail = styledComponents.div`
 const Image = styledComponents.img`
    width:200px;
    height:150px;
+   object-fit : contain;
 `;
 const Details = styledComponents.div`
   padding:20px;
@@ -146,6 +151,13 @@ const SummeryButton = styledComponents.button`
 
 
 const Cart = () => {
+    const cart = useSelector(state => state.cart)
+    const [stripeToken,setStripeToken] = useState(null);
+    const onToken = (token) => {
+        setStripeToken(token);
+
+    }
+    console.log(stripeToken);
     return (
         <Container>
             <Annoucement/>
@@ -162,57 +174,42 @@ const Cart = () => {
                  </Top>
                  <Bottom>
                      <Info>
-                         <Product>
-                             <ProductDetail>
-                                 <Image src="https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-                                 <Details>
-                                     <ProductName><b>Product:</b>JESSIE THUNDER SHOES</ProductName>
-                                     <ProductId><b>Id:</b>345435435</ProductId>
-                                     <ProductColor color="black"/>
-                                     <ProductSize><b>Size:</b>37.5</ProductSize>
-                                 </Details>
+                         {
+                             cart.products.map((product) => (
+                                 <Product>
+                                        <ProductDetail>
+                                            <Image src={product.img}/>
+                                            <Details>
+                                                <ProductName><b>Product:</b>{product.title}</ProductName>
+                                                <ProductId><b>Id:</b>{product.id}</ProductId>
+                                                <ProductColor color={product.color}/>
+                                                <ProductSize><b>Size:</b>{product.size}</ProductSize>
+                                            </Details>
 
-                             </ProductDetail>
-                             <PriceDetail>
-                                 <ProductAmountContainer>
-                                     <Add/>
-                                     <ProductAmount>2</ProductAmount>
-                                     <Remove/>
-                                 </ProductAmountContainer>
-                                 <ProductPrice>$34</ProductPrice>
+                                        </ProductDetail>
+                                        <PriceDetail>
+                                            <ProductAmountContainer>
+                                                <Add/>
+                                                <ProductAmount>{product.quantity}</ProductAmount>
+                                                <Remove/>
+                                            </ProductAmountContainer>
+                                            <ProductPrice>{product.price*product.quantity}</ProductPrice>
 
-                             </PriceDetail>
-                            
-                         </Product>
+                                        </PriceDetail>
+                                        
+                                 </Product>
+
+                             ))
+                         }
+                         
                          <Hr/>
-                         <Product>
-                             <ProductDetail>
-                                 <Image src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-                                 <Details>
-                                     <ProductName><b>Product:</b>Rolex Watch</ProductName>
-                                     <ProductId><b>Id:</b>345435435</ProductId>
-                                     <ProductColor color="Silver"/>
-                                     
-                                 </Details>
-
-                             </ProductDetail>
-                             <PriceDetail>
-                                 <ProductAmountContainer>
-                                     <Add/>
-                                     <ProductAmount>2</ProductAmount>
-                                     <Remove/>
-                                 </ProductAmountContainer>
-                                 <ProductPrice>$34</ProductPrice>
-
-                             </PriceDetail>
-                            
-                         </Product>
+                        
                      </Info>
                       <Summery>
                         <SummeryTitle>ORDER SUMMERY</SummeryTitle>
                         <SummeryItem>
                           <SummeryItemText>Subtotal</SummeryItemText>
-                          <SummeryItemPrice>$ 80</SummeryItemPrice>
+                          <SummeryItemPrice>${cart.total}</SummeryItemPrice>
                         </SummeryItem>
                          <SummeryItem>
                           <SummeryItemText>Estimated Shipping</SummeryItemText>
@@ -224,9 +221,20 @@ const Cart = () => {
                         </SummeryItem>
                          <SummeryItem type="total">
                           <SummeryItemText >Total</SummeryItemText>
-                          <SummeryItemPrice>$ 80</SummeryItemPrice>
+                          <SummeryItemPrice>$ {cart.total}</SummeryItemPrice>
                         </SummeryItem>
-                        <SummeryButton>CheckOut Now</SummeryButton>
+                          <StripeCheckout name="E-Com" image=""
+                                billingAddress
+                                shippingAddress
+                                description={`Your total is $${cart.total}`}
+                                amount={cart.total*100}
+                                token={onToken}
+                                stripeKey={KEY}
+                                >
+                          <SummeryButton>Pay</SummeryButton>
+
+                </StripeCheckout>
+                       
 
                       </Summery>
                    
