@@ -19,17 +19,18 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route exact path="/" element={<Home />}></Route>
         <Route path="/pay" element={<Pay />}></Route>
         <Route path="/success" element={<Pay />}></Route>
-       
+        <Route path="/productslist/:category" element={<ProductList />}></Route>
+
         <Route path="/login" element={<Login />}></Route>
-     
 
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/register" element={<Register />}></Route>
+
         <Route path="/product/:id" element={<Product />}></Route>
-        <Route path="/products/:category" element={<ProductList />}></Route>
+     
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>

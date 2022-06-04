@@ -1,10 +1,13 @@
 import { Add, Remove } from '@material-ui/icons';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styledComponents from 'styled-components';
 import Annoucement from '../components/Annoucement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
+import { publicRequest } from '../requestMethods';
 import { mobile } from '../responsive';
 
 
@@ -13,12 +16,14 @@ const Wrapper = styledComponents.div`
   display:flex;
   padding:50px;
     ${mobile({padding:"30px",flexDirection:"column"})};
+    justify-content:center;
 `;
 const ImgContainer = styledComponents.div`
   flex:1;
 `;
 const Image = styledComponents.img`
-  width:100%;
+  
+  max-width:100%;
   height:80vh;
   object-fit:cover;
 `;
@@ -102,6 +107,46 @@ const Button = styledComponents.button`
 `
 
 const Product = () => {
+   const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product,setProduct] = useState({});
+    const [quantity,setQuantity] = useState(1);
+       const [size,setSize] = useState(" ");
+       const [color,setColor] = useState(" ");
+
+  
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try{
+        const res = await publicRequest.get("/products/find/"+id);
+        setProduct(res.data);
+
+      }
+      catch{
+
+      }
+    }
+    getProduct();
+
+  }, [id])
+
+   const  handleQuantity = (type) => {
+     if(type === "dec"){
+       quantity > 1 && 
+       setQuantity(quantity-1)
+     }
+     else{
+       setQuantity(quantity + 1)
+     }
+
+   }
+
+  console.log(product);
+
+  const handleClick = () => {
+
+  }
     return (
         <Container>
             <Annoucement/>
@@ -109,38 +154,38 @@ const Product = () => {
             <Navbar/>
             <Wrapper>
                 <ImgContainer>
-                   <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+                   <Image src={product.img} />
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>Denim Jumpsuit</Title>
+                    <Title>{product.title}</Title>
                     <Desc>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi impedit id quidem sequi fuga itaque, exercitationem enim aspernatur soluta distinctio!</Desc>
-                    <Price>30 $</Price>
+                    <Price>{product.price}</Price>
                     <FilterContainer>
                         <Filter>
-                            <FilterTitle>Color</FilterTitle>
-                            <FilterColor color="black"/>
-                              <FilterColor color="darkblue" />
-                                <FilterColor color="gray"/>
+                           {
+                             product?.color?.map((c) => (
+                               <FilterColor color={c} key={c} onClick={() => setColor(c)}/>
+                             ))
+                           }
 
                         </Filter>
-                         <Filter>
+                         <FilterSize onChange={(e) => setSize(e.target.value)}>
                              <FilterTitle>Size</FilterTitle>
-                             <FilterSize>
-                                  <FilterSizeOption>XS</FilterSizeOption>
-                                    <FilterSizeOption>S</FilterSizeOption>
-                                    <FilterSizeOption>M</FilterSizeOption>
-                                    <FilterSizeOption>L</FilterSizeOption>
-                                    <FilterSizeOption>XL</FilterSizeOption>
-                             </FilterSize>
-                         </Filter>
+                              {
+                             product?.size?.map((s) => (
+                               <FilterSizeOption>{s}</FilterSizeOption>
+                             ))
+                           }
+                            
+                         </FilterSize>
                     </FilterContainer>
                     <AddContainer>
                         <AmounContainer>
-                            <Remove/>
-                            <Amount>1</Amount>
-                            <Add/>
+                            <Remove onClick={() => handleQuantity("dec")}/>
+                            <Amount>{quantity}</Amount>
+                            <Add onClick={() => handleQuantity("inc")}/>
                         </AmounContainer>
-                        <Button>Add to cart</Button>
+                        <Button onClick={handleClick}>Add to cart</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>

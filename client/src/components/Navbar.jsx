@@ -88,7 +88,7 @@ const Navbar = () => {
                    <Link to="/">
                      <MenuItems>HOME</MenuItems>
                    </Link>
-                   <Link to="/products">
+                   <Link to="/product/:id">
                     <MenuItems>PRODUCT LIST</MenuItems>
                    </Link>
                    <Link to="/cart">
