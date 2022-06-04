@@ -1,5 +1,7 @@
 import React from 'react';
 import styledComponents from 'styled-components';
+import Navbar from '../components/Navbar';
+import { mobile } from '../responsive';
 
 
 
@@ -24,6 +26,7 @@ const Wrapper = styledComponents.div`
 
    padding:20px;
    background-color:white;
+     ${mobile({width:"75%"})};
    
 `;
 const Form = styledComponents.form`
@@ -56,7 +59,10 @@ const Button = styledComponents.button`
 
 const Register = () => {
     return (
-        <Container>
+       <div>
+           <Navbar/>
+           <Container>
+          
             <Wrapper>
                 <Title>CREATE AN ACCOUNT</Title>
                 <Form>
@@ -77,6 +83,9 @@ const Register = () => {
             </Wrapper>
             
         </Container>
+
+       </div>
+       
     );
 };
 

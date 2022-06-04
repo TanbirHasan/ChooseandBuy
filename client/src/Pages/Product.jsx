@@ -5,12 +5,14 @@ import Annoucement from '../components/Annoucement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
+import { mobile } from '../responsive';
 
 
 const Container = styledComponents.div``;
 const Wrapper = styledComponents.div`
   display:flex;
   padding:50px;
+    ${mobile({padding:"30px",flexDirection:"column"})};
 `;
 const ImgContainer = styledComponents.div`
   flex:1;
@@ -67,6 +69,7 @@ const AddContainer = styledComponents.div`
   display:flex;
   align-items: center;
   justify-content:space-between;
+    ${mobile({width:"100%"})};
 
 `
 const AmounContainer = styledComponents.div`
@@ -95,6 +98,7 @@ const Button = styledComponents.button`
      background-color:teal;
      color:white;
    }
+   
 `
 
 const Product = () => {
