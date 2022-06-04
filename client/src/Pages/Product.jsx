@@ -7,8 +7,10 @@ import Annoucement from '../components/Annoucement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
+import { addProduct } from '../redux/cartRedux';
 import { publicRequest } from '../requestMethods';
 import { mobile } from '../responsive';
+import {useDispatch} from "react-redux"
 
 
 const Container = styledComponents.div``;
@@ -113,6 +115,7 @@ const Product = () => {
     const [quantity,setQuantity] = useState(1);
        const [size,setSize] = useState(" ");
        const [color,setColor] = useState(" ");
+    const dispatch = useDispatch();
 
   
 
@@ -145,6 +148,13 @@ const Product = () => {
   console.log(product);
 
   const handleClick = () => {
+    dispatch(
+        addProduct({...product,quantity,color,size})
+    )
+
+    console.log(size)
+  
+    
 
   }
     return (
@@ -169,8 +179,10 @@ const Product = () => {
                            }
 
                         </Filter>
-                         <FilterSize onChange={(e) => setSize(e.target.value)}>
-                             <FilterTitle>Size</FilterTitle>
+                        <Filter>
+                           <FilterTitle>Size</FilterTitle>
+                           <FilterSize onChange={(e) => setSize(e.target.value)}>
+                            
                               {
                              product?.size?.map((s) => (
                                <FilterSizeOption>{s}</FilterSizeOption>
@@ -178,6 +190,9 @@ const Product = () => {
                            }
                             
                          </FilterSize>
+
+                        </Filter>
+                        
                     </FilterContainer>
                     <AddContainer>
                         <AmounContainer>
