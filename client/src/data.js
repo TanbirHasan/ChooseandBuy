@@ -1,7 +1,7 @@
 export const sliderItems = [
   {
     id: 1,
-    img: "ttps://i.ibb.co/DG69bQ4/2.png",
+    img: "https://i.ibb.co/bNywjqx/pexels-marlene-lepp-nen-1183266.jpg",
     title: "SUMMER SALE",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
     bg: "f5fafd",

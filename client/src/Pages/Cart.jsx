@@ -1,5 +1,5 @@
 import { Add, Remove } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styledComponents from 'styled-components';
 import Annoucement from '../components/Annoucement';
@@ -7,8 +7,10 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { mobile } from '../responsive';
 import StripeCheckout from 'react-stripe-checkout';
+import {userRequest} from "../requestMethods"
+import { useNavigate } from 'react-router-dom';
 
-const KEY = process.env.REACT_APP_STRIPE
+const KEY = process.env.REACT_APP_STRIPE;
 
 
 const Container = styledComponents.div``;
@@ -153,11 +155,33 @@ const SummeryButton = styledComponents.button`
 const Cart = () => {
     const cart = useSelector(state => state.cart)
     const [stripeToken,setStripeToken] = useState(null);
+    const navigate = useNavigate();
+    
     const onToken = (token) => {
         setStripeToken(token);
 
     }
     console.log(stripeToken);
+
+    useEffect(() => {
+      const makeRequest = async () => {
+        try{
+          const res = await userRequest.post("/checkout/payment",{
+               tokenId : stripeToken.id,
+              amount : cart.total*100,
+             
+
+
+          });
+           navigate({pathname : "/success"},{data:res.data});
+       
+        }
+        catch{
+
+        }
+      }
+     stripeToken && makeRequest();
+    },[stripeToken,cart.total,navigate])
     return (
         <Container>
             <Annoucement/>

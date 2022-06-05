@@ -55,8 +55,7 @@ const Slide = styled.div`
    
 `
 const ImageContainer = styled.div` 
-   flex:1;
-   
+   flex:1; 
    height:100%;
 
  
@@ -64,9 +63,9 @@ const ImageContainer = styled.div`
    
 `
 const Image = styled.img` 
-  height:80%;
-
-   
+  height:100%;
+  width:100%;
+  object-fit:cover;   
 `
 
 const InfoContainer = styled.div` 

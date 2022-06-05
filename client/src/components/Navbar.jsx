@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Badge from '@mui/material/Badge';
 import { mobile } from '../responsive';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 
@@ -74,6 +74,8 @@ const MenuItems = styled.div`
 
 const Navbar = () => {
   const quantity = useSelector(state=> state.cart.quantity)
+  const user = useSelector(state => state.user.currentUser);
+
 
   
     return (
@@ -98,6 +100,7 @@ const Navbar = () => {
                    <Link to="/cart">
                       <MenuItems>CART</MenuItems>
                    </Link>
+                   
                    <Link to="/register">
                     <MenuItems>REGISTER</MenuItems>
                    </Link>

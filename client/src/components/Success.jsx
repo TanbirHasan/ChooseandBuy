@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const Container = styled.div`
    display : flex;
    justify-content : center;
+   align-items: center;
   
 `
 
@@ -13,6 +14,7 @@ const Button = styled.button`
 
    padding : 20px 8px;
    background-color : Green;
+   margin-top:100px;
   
 `
 
